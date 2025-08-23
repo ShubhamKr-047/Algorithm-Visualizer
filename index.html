@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithm Visualizer</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-chart-bar brand-icon"></i>
+                <h1 class="brand-title">Algorithm Visualizer</h1>
+            </div>
+            
+            <div class="nav-info">
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Ready</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="app">
+        <section class="control-panel">
+            <div class="control-section">
+                <h2 class="section-title">
+                    <i class="fas fa-cog"></i>
+                    Configuration
+                </h2>
+                
+                <div class="control-grid">
+                    <div class="control-item">
+                        <label class="control-label">
+                            <i class="fas fa-arrows-alt-h"></i>
+                            Array Size
+                        </label>
+                        <div class="slider-container">
+                            <input 
+                                id="a_size" 
+                                class="slider" 
+                                type="range" 
+                                min="10" 
+                                max="200" 
+                                step="5" 
+                                value="80"
+                            >
+                            <span class="slider-value" id="a_size_value">80</span>
+                        </div>
+                    </div>
+
+                    <div class="control-item">
+                        <label class="control-label">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Animation Speed
+                        </label>
+                        <div class="slider-container">
+                            <input 
+                                id="a_speed" 
+                                class="slider" 
+                                type="range" 
+                                min="1" 
+                                max="5" 
+                                step="1" 
+                                value="3"
+                            >
+                            <span class="slider-value" id="a_speed_value">3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="a_generate" class="generate-btn">
+                    <i class="fas fa-refresh"></i>
+                    Generate New Array
+                </button>
+            </div>
+
+            <div class="control-section">
+                <h2 class="section-title">
+                    <i class="fas fa-play"></i>
+                    Algorithms
+                </h2>
+                
+                <div class="algorithm-grid">
+                    <button class="algorithm-btn" data-algo="bubble">
+                        <div class="algo-info">
+                            <span class="algo-name">Bubble Sort</span>
+                            <span class="algo-complexity">O(n²)</span>
+                        </div>
+                    </button>
+                    <button class="algorithm-btn" data-algo="selection">
+                        <div class="algo-info">
+                            <span class="algo-name">Selection Sort</span>
+                            <span class="algo-complexity">O(n²)</span>
+                        </div>
+                    </button>
+                    <button class="algorithm-btn" data-algo="insertion">
+                        <div class="algo-info">
+                            <span class="algo-name">Insertion Sort</span>
+                            <span class="algo-complexity">O(n²)</span>
+                        </div>
+                    </button>
+                    <button class="algorithm-btn" data-algo="merge">
+                        <div class="algo-info">
+                            <span class="algo-name">Merge Sort</span>
+                            <span class="algo-complexity">O(n log n)</span>
+                        </div>
+                    </button>
+                    <button class="algorithm-btn" data-algo="quick">
+                        <div class="algo-info">
+                            <span class="algo-name">Quick Sort</span>
+                            <span class="algo-complexity">O(n log n)</span>
+                        </div>
+                    </button>
+                    <button class="algorithm-btn" data-algo="heap">
+                        <div class="algo-info">
+                            <span class="algo-name">Heap Sort</span>
+                            <span class="algo-complexity">O(n log n)</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="visualization-section">
+            <div class="visualization-header">
+                <h2 class="viz-title">Visualization</h2>
+                <div class="viz-controls">
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress_bar"></div>
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <span class="legend-color comparing"></span>
+                            <span>Comparing</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color swapping"></span>
+                            <span>Swapping</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color sorted"></span>
+                            <span>Sorted</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visualization-container">
+                <div id="array_container" class="array-container"></div>
+            </div>
+        </section>
+
+        <section class="info-panel">
+            <div class="info-card complexity-card">
+                <h3 class="card-title">
+                    <i class="fas fa-clock"></i>
+                    Time Complexity
+                </h3>
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <span class="complexity-case">Best Case</span>
+                        <span class="complexity-value" id="Time_Best">-</span>
+                    </div>
+                    <div class="complexity-item">
+                        <span class="complexity-case">Average Case</span>
+                        <span class="complexity-value" id="Time_Average">-</span>
+                    </div>
+                    <div class="complexity-item">
+                        <span class="complexity-case">Worst Case</span>
+                        <span class="complexity-value" id="Time_Worst">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card complexity-card">
+                <h3 class="card-title">
+                    <i class="fas fa-memory"></i>
+                    Space Complexity
+                </h3>
+                <div class="complexity-grid">
+                    <div class="complexity-item">
+                        <span class="complexity-case">Worst Case</span>
+                        <span class="complexity-value" id="Space_Worst">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card stats-card">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-line"></i>
+                    Statistics
+                </h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label">Comparisons</span>
+                        <span class="stat-value" id="comparisons">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Swaps</span>
+                        <span class="stat-value" id="swaps">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Array Access</span>
+                        <span class="stat-value" id="array_access">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Time Elapsed</span>
+                        <span class="stat-value" id="time_elapsed">0ms</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/visualizations.js"></script>
+    <script src="./scripts/bubble_sort.js"></script>
+    <script src="./scripts/selection_sort.js"></script>
+    <script src="./scripts/insertion_sort.js"></script>
+    <script src="./scripts/merge_sort.js"></script>
+    <script src="./scripts/quick_sort.js"></script>
+    <script src="./scripts/heap_sort.js"></script>
+</body>
+</html>
